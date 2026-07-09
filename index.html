@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>FIFA World Cup 2026 — Road to the Final (Knockout Sketch)</title>
+<style>
+:root{
+  --page:#eef1f7; --panel:#ffffff; --ink:#12172a; --muted:#5a6377;
+  --line:#dfe4ee; --win:#1f9d55; --up:#d98a00; --idle:#9aa3b2;
+  --hero1:#0b1230; --hero2:#3a2a6d; --hero3:#8e1c4a;
+  --gold:#e9b949; --shadow:0 4px 14px rgba(20,30,60,.10);
+  --radius:16px; --maxw:1180px;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --page:#0a0f1f; --panel:#141b30; --ink:#eef1fb; --muted:#9aa6c0;
+    --line:#26304b; --shadow:0 4px 18px rgba(0,0,0,.45);
+  }
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--page); color:var(--ink);
+  font-family:"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  line-height:1.5; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:var(--maxw); margin-inline:auto; padding-inline:18px}
+a{color:inherit}
+h1,h2,h3{margin:0; line-height:1.15}
+small{color:var(--muted)}
+
+/* ---------- HERO ---------- */
+.hero{
+  background:linear-gradient(120deg,var(--hero1),var(--hero2) 55%,var(--hero3));
+  color:#fff; padding:34px 0 26px; position:relative; overflow:hidden;
+}
+.hero .wrap{position:relative; z-index:1}
+.hero .kicker{letter-spacing:.22em; text-transform:uppercase; font-size:12px; color:var(--gold); font-weight:700}
+.hero h1{font-size:clamp(28px,4.6vw,52px); font-weight:800; margin:6px 0 4px}
+.hero .sub{font-size:clamp(15px,1.6vw,19px); color:#dfe4f6; max-width:760px}
+.trophy{font-size:40px}
+.status{
+  display:inline-flex; gap:10px; align-items:center; flex-wrap:wrap;
+  margin-top:16px; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.22);
+  padding:10px 14px; border-radius:999px; font-size:13.5px; backdrop-filter:blur(2px);
+}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--gold);display:inline-block;box-shadow:0 0 0 4px rgba(233,185,73,.25)}
+.facts{display:flex; flex-wrap:wrap; gap:10px; margin-top:18px}
+.fact{background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.18); border-radius:12px; padding:8px 12px; font-size:13px}
+.fact b{display:block; font-size:17px; color:#fff}
+nav.jump{display:flex; flex-wrap:wrap; gap:8px; margin-top:18px}
+nav.jump a{background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.2); color:#fff; text-decoration:none; padding:7px 12px; border-radius:999px; font-size:12.5px; font-weight:600}
+nav.jump a:hover{background:rgba(255,255,255,.26)}
+
+/* ---------- SECTION ---------- */
+section{padding:34px 0 8px}
+.sec-head{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:16px}
+.sec-head h2{font-size:clamp(20px,2.6vw,28px); font-weight:800}
+.sec-head p{margin:0; color:var(--muted); font-size:14px}
+.legend{display:flex; gap:14px; flex-wrap:wrap; font-size:12.5px; color:var(--muted); margin-left:auto}
+.legend span{display:inline-flex; align-items:center; gap:6px}
+.chip{width:14px;height:14px;border-radius:4px;display:inline-block}
+.chip.win{background:var(--win)} .chip.up{background:var(--up)} .chip.idle{background:var(--idle)}
+
+/* ---------- BRACKET ---------- */
+.bracket{display:grid; grid-template-columns:1.15fr 1fr .9fr; gap:16px; align-items:center}
+.round-col{display:flex; flex-direction:column; gap:14px}
+.round-lbl{font-size:12px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); text-align:center}
+.match{background:var(--panel); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow); padding:12px 13px}
+.match .meta{display:flex; justify-content:space-between; font-size:11.5px; color:var(--muted); margin-bottom:8px}
+.match .code{font-weight:800; color:var(--gold)}
+.side{display:flex; align-items:center; gap:9px; padding:6px 0}
+.side .fl{font-size:19px; width:24px; text-align:center}
+.side .nm{font-weight:700; font-size:15px}
+.side .sc{margin-left:auto; font-weight:800; color:var(--muted)}
+.vs{height:1px; background:var(--line); margin:2px 0}
+.watchline{margin-top:9px; display:flex; gap:6px; align-items:center; flex-wrap:wrap; border-top:1px dashed var(--line); padding-top:9px}
+.watchline .wl{font-size:11.5px; color:var(--muted); margin-right:2px}
+.mini{font-size:11px; font-weight:700; text-decoration:none; padding:4px 9px; border-radius:999px; border:1px solid var(--line)}
+.mini.fox{background:#0b57d0; color:#fff; border-color:#0b57d0}
+.mini.tel{background:#00a651; color:#fff; border-color:#00a651}
+.slot{font-size:11px; color:var(--muted); border:1px dashed var(--line); border-radius:999px; padding:4px 9px}
+.match.tbd{background:repeating-linear-gradient(135deg,transparent,transparent 9px,rgba(150,160,180,.06) 9px,rgba(150,160,180,.06) 18px)}
+.match.final{border:2px solid var(--gold)}
+.match.final .code{color:var(--gold)}
+
+/* ---------- TEAM CARDS ---------- */
+.teams{display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:16px}
+.half-lbl{grid-column:1/-1; font-size:12.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-top:6px}
+.team{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; display:flex; flex-direction:column}
+.kit-band{
+  background:linear-gradient(120deg,var(--kit),var(--kit2)); color:var(--tint,#fff);
+  padding:14px 15px; display:flex; align-items:center; gap:12px; position:relative;
+}
+.kit-band::after{content:""; position:absolute; inset:0; background:linear-gradient(90deg,transparent 62%,rgba(255,255,255,.14) 62%,rgba(255,255,255,.14) 66%,transparent 66%); pointer-events:none}
+.kit-band .fl{font-size:30px}
+.kit-band h3{font-size:20px; font-weight:800}
+.kit-band .grp{font-size:11.5px; opacity:.9; font-weight:600; letter-spacing:.02em}
+.kit-band .seed{margin-left:auto; font-size:11px; font-weight:800; background:rgba(0,0,0,.22); padding:4px 9px; border-radius:999px}
+.team-body{padding:13px 15px 15px; display:flex; flex-direction:column; gap:12px; flex:1}
+.path{display:flex; flex-direction:column; gap:7px}
+.leg{display:grid; grid-template-columns:38px 1fr auto auto; align-items:center; gap:8px; font-size:13px; padding:6px 8px; border-radius:9px; background:rgba(120,130,150,.07)}
+.leg .stage{font-weight:800; color:var(--muted); font-size:11px}
+.leg .opp{color:var(--ink)}
+.leg .score{font-weight:800}
+.badge{font-size:10px; font-weight:800; padding:3px 7px; border-radius:999px; color:#fff; white-space:nowrap}
+.badge.w{background:var(--win)} .badge.u{background:var(--up)}
+.stat-row{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+.stat{background:rgba(120,130,150,.07); border:1px solid var(--line); border-radius:11px; padding:9px 10px}
+.stat .ico{font-size:18px}
+.stat b{display:block; font-size:14px; margin-top:2px}
+.stat small{font-size:11px}
+.note{margin:0; font-size:12.5px; color:var(--muted); background:rgba(120,130,150,.06); border-left:3px solid var(--kit2); padding:8px 10px; border-radius:0 8px 8px 0}
+.watch{margin-top:auto; display:flex; align-items:center; gap:6px; flex-wrap:wrap; border-top:1px solid var(--line); padding-top:11px}
+.watch .wl{font-size:11.5px; color:var(--muted); font-weight:600; margin-right:2px}
+
+/* ---------- STAT PANELS ---------- */
+.grid2{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+.panel{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:16px 17px}
+.panel h3{font-size:16px; font-weight:800; margin-bottom:3px}
+.panel .ph{font-size:12px; color:var(--muted); margin-bottom:14px}
+.bar{display:grid; grid-template-columns:150px 1fr 42px; align-items:center; gap:10px; margin-bottom:9px; font-size:13px}
+.bar .who{font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.bar .who small{display:block; font-size:10.5px}
+.track{background:rgba(120,130,150,.16); border-radius:999px; height:18px; overflow:hidden; display:block; width:100%}
+.fill{display:block; height:100%; min-width:7px; border-radius:999px; background:linear-gradient(90deg,var(--gold),#d67e2e)}
+.fill.def{background:linear-gradient(90deg,#1f9d55,#12805f)}
+.bar .val{font-weight:800; text-align:right}
+.moments{display:flex; flex-direction:column; gap:11px}
+.moment{display:flex; gap:11px; align-items:flex-start; font-size:13px}
+.moment .m-ico{font-size:22px; line-height:1}
+.moment b{display:block}
+.moment small{font-size:11.5px}
+
+/* ---------- TIMELINE ---------- */
+.tl-scroll{overflow-x:auto}
+.timeline{min-width:720px; display:flex; flex-direction:column; gap:0}
+.tl-head,.tl-row{display:grid; grid-template-columns:150px repeat(6,1fr); gap:8px; align-items:center}
+.tl-head{position:sticky; top:0; padding-bottom:8px}
+.tl-head div{font-size:11px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); text-align:center}
+.tl-head div:first-child{text-align:start}
+.tl-row{padding:7px 0; border-top:1px solid var(--line)}
+.tl-team{display:flex; align-items:center; gap:8px; font-weight:700; font-size:13.5px}
+.tl-team .fl{font-size:18px}
+.node{border-radius:9px; padding:7px 4px; text-align:center; font-size:11px; font-weight:700; color:#fff; line-height:1.25}
+.node small{display:block; font-size:9.5px; font-weight:600; opacity:.92}
+.node.win{background:var(--win)} .node.up{background:var(--up)} .node.idle{background:var(--idle); color:#fff}
+.node.q{background:linear-gradient(120deg,#3a2a6d,#8e1c4a)}
+
+/* ---------- WATCH ---------- */
+.watch-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px}
+.wcard{background:var(--panel); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow); padding:15px 16px}
+.wcard .wt{font-weight:800; font-size:15px; display:flex; align-items:center; gap:8px}
+.wcard p{font-size:12.5px; color:var(--muted); margin:6px 0 12px}
+.btn{display:inline-block; text-decoration:none; font-weight:700; font-size:13px; padding:9px 14px; border-radius:10px; border:1px solid var(--line)}
+.btn.primary{background:#0b57d0; color:#fff; border-color:#0b57d0}
+.btn.green{background:#00a651; color:#fff; border-color:#00a651}
+.btn.dark{background:#111726; color:#fff; border-color:#111726}
+.btn.ghost{background:transparent}
+.note-box{margin-top:14px; font-size:12.5px; color:var(--muted); background:rgba(120,130,150,.07); border:1px solid var(--line); border-radius:12px; padding:12px 14px}
+
+/* ---------- FOOTER ---------- */
+footer{margin-top:30px; padding:22px 0 40px; border-top:1px solid var(--line); color:var(--muted); font-size:12px}
+footer b{color:var(--ink)}
+.src{display:flex; flex-wrap:wrap; gap:6px; margin-top:8px}
+.src span{background:rgba(120,130,150,.10); border:1px solid var(--line); border-radius:999px; padding:3px 9px}
+
+@media (max-width:820px){
+  .bracket{grid-template-columns:1fr}
+  .grid2{grid-template-columns:1fr}
+  .bar{grid-template-columns:120px 1fr 38px}
+}
+@media print{
+  body{background:#fff}
+  .hero{background:var(--hero1) !important; -webkit-print-color-adjust:exact; print-color-adjust:exact}
+  nav.jump{display:none}
+  .team,.panel,.match,.wcard{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">The Last Eight · Knockout Stage Sketch</div>
+    <h1><span class="trophy">🏆</span> World Cup 2026 — Road to the Final</h1>
+    <p class="sub">A colour-coded, fact-based tracker of the 2026 FIFA World Cup knockout stage, hosted across the USA, Canada &amp; Mexico. Each team wears its own kit colours.</p>
+    <div class="status"><span class="dot"></span> <b>Live snapshot — Wed, July 8, 2026.</b>&nbsp;Round of 16 complete (Jul 4–7). Quarterfinals kick off Thursday, July 9. Completed rounds show real results; the QF → Final show confirmed fixtures with outcomes to be filled as matches are played.</div>
+    <div class="facts">
+      <div class="fact"><b>48</b> teams · first ever</div>
+      <div class="fact"><b>104</b> matches</div>
+      <div class="fact"><b>8</b> teams remain</div>
+      <div class="fact"><b>Jul 19</b> Final · MetLife Stadium, NJ</div>
+    </div>
+    <nav class="jump">
+      <a href="#bracket">Bracket</a>
+      <a href="#teams">Team profiles</a>
+      <a href="#stats">Top scorers &amp; defense</a>
+      <a href="#timeline">Progression timeline</a>
+      <a href="#watch">Where to watch</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ================= BRACKET ================= -->
+<section id="bracket">
+  <div class="sec-head">
+    <h2>🗺️ The Knockout Bracket</h2>
+    <p>Quarterfinals → Semifinals → Final</p>
+    <div class="legend">
+      <span><i class="chip win"></i> Won / advanced</span>
+      <span><i class="chip up"></i> Upcoming</span>
+      <span><i class="chip idle"></i> To be decided</span>
+    </div>
+  </div>
+  <div class="bracket">
+    <!-- QF column -->
+    <div class="round-col">
+      <div class="round-lbl">Quarterfinals · Jul 9–11</div>
+      <div class="match">
+        <div class="meta"><span class="code">M97</span><span>Thu Jul 9 · 4:00 PM ET · Boston</span></div>
+        <div class="side"><span class="fl">🇫🇷</span><span class="nm">France</span><span class="sc">—</span></div>
+        <div class="vs"></div>
+        <div class="side"><span class="fl">🇲🇦</span><span class="nm">Morocco</span><span class="sc">—</span></div>
+        <div class="watchline"><span class="wl">▶ Watch/replay</span><a class="mini fox" href="https://www.foxsports.com">FOX</a><a class="mini tel" href="https://www.telemundodeportes.com">Telemundo</a><span class="slot">＋ link</span></div>
+      </div>
+      <div class="match">
+        <div class="meta"><span class="code">M98</span><span>Fri Jul 10 · 3:00 PM ET · Los Angeles</span></div>
+        <div class="side"><span class="fl">🇪🇸</span><span class="nm">Spain</span><span class="sc">—</span></div>
+        <div class="vs"></div>
+        <div class="side"><span class="fl">🇧🇪</span><span class="nm">Belgium</span><span class="sc">—</span></div>
+        <div class="watchline"><span class="wl">▶ Watch/replay</span><a class="mini fox" href="https://www.foxsports.com">FOX</a><a class="mini tel" href="https://www.telemundodeportes.com">Telemundo</a><span class="slot">＋ link</span></div>
+      </div>
+      <div class="match">
+        <div class="meta"><span class="code">M99</span><span>Sat Jul 11 · 5:00 PM ET · Miami</span></div>
+        <div class="side"><span class="fl">🇳🇴</span><span class="nm">Norway</span><span class="sc">—</span></div>
+        <div class="vs"></div>
+        <div class="side"><span class="fl">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span><span class="nm">England</span><span class="sc">—</span></div>
+        <div class="watchline"><span class="wl">▶ Watch/replay</span><a class="mini fox" href="https://www.foxsports.com">FOX</a><a class="mini tel" href="https://www.telemundodeportes.com">Telemundo</a><span class="slot">＋ link</span></div>
+      </div>
+      <div class="match">
+        <div class="meta"><span class="code">M100</span><span>Sat Jul 11 · 9:00 PM ET · Kansas City</span></div>
+        <div class="side"><span class="fl">🇦🇷</span><span class="nm">Argentina</span><span class="sc">—</span></div>
+        <div class="vs"></div>
+        <div class="side"><span class="fl">🇨🇭</span><span class="nm">Switzerland</span><span class="sc">—</span></div>
+        <div class="watchline"><span class="wl">▶ Watch/replay</span><a class="mini fox" href="https://www.foxsports.com">FOX</a><a class="mini tel" href="https://www.telemundodeportes.com">Telemundo</a><span class="slot">＋ link</span></div>
+      </div>
+    </div>
+    <!-- SF column -->
+    <div class="round-col">
+      <div class="round-lbl">Semifinals · Jul 14–15</div>
+      <div class="match tbd">
+        <div class="meta"><span class="code">M101</span><span>Tue Jul 14 · Dallas</span></div>
+        <div class="side"><span class="fl">⬜</span><span class="nm">Winner M97</span></div>
+        <div class="vs"></div>
+        <div class="side"><span class="fl">⬜</span><span class="nm">Winner M98</span></div>
+        <div class="watchline"><span class="wl">▶ Watch/replay</span><a class="mini fox" href="https://www.foxsports.com">FOX</a><a class="mini tel" href="https://www.telemundodeportes.com">Telemundo</a><span class="slot">＋ link</span></div>
+      </div>
+      <div class="match tbd">
+        <div class="meta"><span class="code">M102</span><span>Wed Jul 15 · Atlanta</span></div>
+        <div class="side"><span class="fl">⬜</span><span class="nm">Winner M99</span></div>
+        <div class="vs"></div>
+        <div class="side"><span class="fl">⬜</span><span class="nm">Winner M100</span></div>
+        <div class="watchline"><span class="wl">▶ Watch/replay</span><a class="mini fox" href="https://www.foxsports.com">FOX</a><a class="mini tel" href="https://www.telemundodeportes.com">Telemundo</a><span class="slot">＋ link</span></div>
+      </div>
+    </div>
+    <!-- Final column -->
+    <div class="round-col">
+      <div class="round-lbl">Final · Jul 19</div>
+      <div class="match final">
+        <div class="meta"><span class="code">🏆 FINAL</span><span>Sun Jul 19 · 3:00 PM ET</span></div>
+        <div class="side"><span class="fl">🏅</span><span class="nm">Winner SF1</span></div>
+        <div class="vs"></div>
+        <div class="side"><span class="fl">🏅</span><span class="nm">Winner SF2</span></div>
+        <div class="watchline"><span class="wl">MetLife Stadium, NJ</span></div>
+        <div class="watchline"><span class="wl">▶ Watch/replay</span><a class="mini fox" href="https://www.foxsports.com">FOX</a><a class="mini tel" href="https://www.telemundodeportes.com">Telemundo</a><span class="slot">＋ link</span></div>
+      </div>
+      <div class="match tbd">
+        <div class="meta"><span class="code">3RD PLACE</span><span>Sat Jul 18 · Miami</span></div>
+        <div class="side"><span class="fl">🥉</span><span class="nm">Loser SF1 v Loser SF2</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TEAM PROFILES ================= -->
+<section id="teams">
+  <div class="sec-head">
+    <h2>🎽 The Last Eight — Team Profiles</h2>
+    <p>Each section themed in the team's kit colours · path so far · key stats</p>
+    <div class="legend">
+      <span><i class="chip win"></i> Win</span>
+      <span><i class="chip up"></i> Next up</span>
+    </div>
+  </div>
+  <div class="teams">
+
+    <div class="half-lbl">⬆️ Top half → Semifinal 1 (Dallas, Jul 14)</div>
+
+    <!-- FRANCE -->
+    <article class="team" style="--kit:#10205a;--kit2:#2b4bb0;--tint:#ffffff">
+      <div class="kit-band"><span class="fl">🇫🇷</span><div><h3>France</h3><div class="grp">Group I · Winner · Les Bleus</div></div><span class="seed">M97</span></div>
+      <div class="team-body">
+        <div class="path">
+          <div class="leg"><span class="stage">R32</span><span class="opp">beat Sweden</span><span class="score">3–0</span><span class="badge w">✓ WIN</span></div>
+          <div class="leg"><span class="stage">R16</span><span class="opp">beat Paraguay</span><span class="score">1–0</span><span class="badge w">✓ WIN</span></div>
+          <div class="leg"><span class="stage">QF</span><span class="opp">vs Morocco · Boston</span><span class="score">Jul 9</span><span class="badge u">NEXT</span></div>
+        </div>
+        <div class="stat-row">
+          <div class="stat"><span class="ico">⚽</span><b>Kylian Mbappé</b><small>7 goals · joint 2nd Golden Boot</small></div>
+          <div class="stat"><span class="ico">🛡️</span><b>0 conceded</b><small>2 clean sheets in KO</small></div>
+        </div>
+        <p class="note">🔑 Unbeaten and among the favourites — the QF is a rematch of the 2022 semifinal, which France won 2–0.</p>
+        <div class="watch"><span class="wl">📺 Watch / replay:</span><a class="mini fox" href="https://www.foxsports.com">FOX</a><a class="mini tel" href="https://www.telemundodeportes.com">Telemundo</a><span class="slot">＋ add match link</span></div>
+      </div>
+    </article>
+
+    <!-- MOROCCO -->
+    <article class="team" style="--kit:#b3121f;--kit2:#076b46;--tint:#ffffff">
+      <div class="kit-band"><span class="fl">🇲🇦</span><div><h3>Morocco</h3><div class="grp">Group C · Runner-up · Atlas Lions</div></div><span class="seed">M97</span></div>
+      <div class="team-body">
+        <div class="path">
+          <div class="leg"><span class="stage">R32</span><span class="opp">beat Netherlands (pens)</span><span class="score">1–1 (3–2)</span><span class="badge w">✓ WIN</span></div>
+          <div class="leg"><span class="stage">R16</span><span class="opp">beat Canada</span><span class="score">3–0</span><span class="badge w">✓ WIN</span></div>
+          <div class="leg"><span class="stage">QF</span><span class="opp">vs France · Boston</span><span class="score">Jul 9</span><span class="badge u">NEXT</span></div>
+        </div>
+        <div class="stat-row">
+          <div class="stat"><span class="ico">⚽</span><b>Ismael Saibari</b><small>3 goals · team top scorer</small></div>
+          <div class="stat"><span class="ico">🛡️</span><b>1 conceded</b><small>1 clean sheet in KO</small></div>
+        </div>
+        <p class="note">🔑 Knocked out co-host Canada 3–0 and arrives with a score to settle from that 2022 semifinal loss to France.</p>
+        <div class="watch"><span class="wl">📺 Watch / replay:</span><a class="mini fox" href="https://www.foxsports.com">FOX</a><a class="mini tel" href="https://www.telemundodeportes.com">Telemundo</a><span class="slot">＋ add match link</span></div>
+      </div>
+    </article>
+
+    <!-- SPAIN -->
+    <article class="team" style="--kit:#a4161a;--kit2:#d21e2b;--tint:#ffffff">
+      <div class="kit-band"><span class="fl">🇪🇸</span><div><h3>Spain</h3><div class="grp">Group H · Winner · La Roja</div></div><span class="seed">M98</span></div>
+      <div class="team-body">
+        <div class="path">
+          <div class="leg"><span class="stage">R32</span><span class="opp">beat Austria</span><span class="score">3–0</span><span class="badge w">✓ WIN</span></div>
+          <div class="leg"><span class="stage">R16</span><span class="opp">beat Portugal</span><span class="score">1–0</span><span class="badge w">✓ WIN</span></div>
+          <div class="leg"><span class="stage">QF</span><span class="opp">vs Belgium · Los Angeles</span><span class="score">Jul 10</span><span class="badge u">NEXT</span></div>
+        </div>
+        <div class="stat-row">
+          <div class="stat"><span class="ico">⚽</span><b>Mikel Oyarzabal</b><small>4 goals · top-10 scorer</small></div>
+          <div class="stat"><span class="ico">🛡️</span><b>0 conceded</b><small>2 clean sheets in KO</small></div>
+        </div>
+        <p class="note">🔑 Fluid attack, watertight defense — edged Cristiano Ronaldo's Portugal 1–0 in an all-Iberian tie.</p>
+        <div class="watch"><span class="wl">📺 Watch / replay:</span><a class="mini fox" href="https://www.foxsports.com">FOX</a><a class="mini tel" href="https://www.telemundodeportes.com">Telemundo</a><span class="slot">＋ add match link</span></div>
+      </div>
+    </article>
+
+    <!-- BELGIUM -->
+    <article class="team" style="--kit:#141418;--kit2:#b01e2e;--tint:#ffffff">
+      <div class="kit-band"><span class="fl">🇧🇪</span><div><h3>Belgium</h3><div class="grp">Group G · Winner · Red Devils</div></div><span class="seed">M98</span></div>
+      <div class="team-body">
+        <div class="path">
+          <div class="leg"><span class="stage">R32</span><span class="opp">beat Senegal (AET)</span><span class="score">3–2</span><span class="badge w">✓ WIN</span></div>
+          <div class="leg"><span class="stage">R16</span><span class="opp">beat USA</span><span class="score">4–1</span><span class="badge w">✓ WIN</span></div>
+          <div class="leg"><span class="stage">QF</span><span class="opp">vs Spain · Los Angeles</span><span class="score">Jul 10</span><span class="badge u">NEXT</span></div>
+        </div>
+        <div class="stat-row">
+          <div class="stat"><span class="ico">⚽</span><b>Romelu Lukaku</b><small>3 goals · De Ketelaere 2 v USA</small></div>
+          <div class="stat"><span class="ico">🔥</span><b>7 goals scored</b><small>most among last 8 (KO)</small></div>
+        </div>
+        <p class="note">🔑 Ended co-host USA's home run 4–1 — the biggest winning margin of the Round of 16.</p>
+        <div class="watch"><span class="wl">📺 Watch / replay:</span><a class="mini fox" href="https://www.foxsports.com">FOX</a><a class="mini tel" href="https://www.telemundodeportes.com">Telemundo</a><span class="slot">＋ add match link</span></div>
+      </div>
+    </article>
+
+    <div class="half-lbl">⬇️ Bottom half → Semifinal 2 (Atlanta, Jul 15)</div>
+
+    <!-- NORWAY -->
+    <article class="team" style="--kit:#b30d2f;--kit2:#002b6d;--tint:#ffffff">
+      <div class="kit-band"><span class="fl">🇳🇴</span><div><h3>Norway</h3><div class="grp">Group I · Runner-up</div></div><span class="seed">M99</span></div>
+      <div class="team-body">
+        <div class="path">
+          <div class="leg"><span class="stage">R32</span><span class="opp">beat Ivory Coast</span><span class="score">2–1</span><span class="badge w">✓ WIN</span></div>
+          <div class="leg"><span class="stage">R16</span><span class="opp">beat Brazil</span><span class="score">2–1</span><span class="badge w">✓ WIN</span></div>
+          <div class="leg"><span class="stage">QF</span><span class="opp">vs England · Miami</span><span class="score">Jul 11</span><span class="badge u">NEXT</span></div>
+        </div>
+        <div class="stat-row">
+          <div class="stat"><span class="ico">⚽</span><b>Erling Haaland</b><small>7 goals · joint 2nd Golden Boot</small></div>
+          <div class="stat"><span class="ico">💥</span><b>Biggest upset</b><small>knocked out 5× champs Brazil</small></div>
+        </div>
+        <p class="note">🔑 Haaland's brace stunned Brazil 2–1 — Norway's first-ever World Cup quarterfinal.</p>
+        <div class="watch"><span class="wl">📺 Watch / replay:</span><a class="mini fox" href="https://www.foxsports.com">FOX</a><a class="mini tel" href="https://www.telemundodeportes.com">Telemundo</a><span class="slot">＋ add match link</span></div>
+      </div>
+    </article>
+
+    <!-- ENGLAND -->
+    <article class="team" style="--kit:#0a1a5c;--kit2:#17307e;--tint:#ffffff">
+      <div class="kit-band"><span class="fl">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span><div><h3>England</h3><div class="grp">Group L · Winner · white kit</div></div><span class="seed">M99</span></div>
+      <div class="team-body">
+        <div class="path">
+          <div class="leg"><span class="stage">R32</span><span class="opp">beat DR Congo</span><span class="score">2–1</span><span class="badge w">✓ WIN</span></div>
+          <div class="leg"><span class="stage">R16</span><span class="opp">beat Mexico</span><span class="score">3–2</span><span class="badge w">✓ WIN</span></div>
+          <div class="leg"><span class="stage">QF</span><span class="opp">vs Norway · Miami</span><span class="score">Jul 11</span><span class="badge u">NEXT</span></div>
+        </div>
+        <div class="stat-row">
+          <div class="stat"><span class="ico">⚽</span><b>Harry Kane</b><small>6 goals · Bellingham 4</small></div>
+          <div class="stat"><span class="ico">🎯</span><b>5 goals scored</b><small>Bellingham brace v Mexico</small></div>
+        </div>
+        <p class="note">🔑 An instant classic 3–2 at the Estadio Azteca sent out co-host Mexico; Kane scored his 6th of the tournament.</p>
+        <div class="watch"><span class="wl">📺 Watch / replay:</span><a class="mini fox" href="https://www.foxsports.com">FOX</a><a class="mini tel" href="https://www.telemundodeportes.com">Telemundo</a><span class="slot">＋ add match link</span></div>
+      </div>
+    </article>
+
+    <!-- ARGENTINA -->
+    <article class="team" style="--kit:#4f9bd9;--kit2:#8fc0ea;--tint:#0b2545">
+      <div class="kit-band"><span class="fl">🇦🇷</span><div><h3>Argentina</h3><div class="grp">Group J · Winner · Holders · Albiceleste</div></div><span class="seed">M100</span></div>
+      <div class="team-body">
+        <div class="path">
+          <div class="leg"><span class="stage">R32</span><span class="opp">beat Cape Verde (AET)</span><span class="score">3–2</span><span class="badge w">✓ WIN</span></div>
+          <div class="leg"><span class="stage">R16</span><span class="opp">beat Egypt</span><span class="score">3–2</span><span class="badge w">✓ WIN</span></div>
+          <div class="leg"><span class="stage">QF</span><span class="opp">vs Switzerland · Kansas City</span><span class="score">Jul 11</span><span class="badge u">NEXT</span></div>
+        </div>
+        <div class="stat-row">
+          <div class="stat"><span class="ico">🥇</span><b>Lionel Messi</b><small>8 goals · Golden Boot leader</small></div>
+          <div class="stat"><span class="ico">📈</span><b>16 career WC goals</b><small>equals Klose's all-time record</small></div>
+        </div>
+        <p class="note">🔑 The defending champions came from 0–2 down to beat Egypt 3–2 — Enzo Fernández's winner arriving in stoppage time.</p>
+        <div class="watch"><span class="wl">📺 Watch / replay:</span><a class="mini fox" href="https://www.foxsports.com">FOX</a><a class="mini tel" href="https://www.telemundodeportes.com">Telemundo</a><span class="slot">＋ add match link</span></div>
+      </div>
+    </article>
+
+    <!-- SWITZERLAND -->
+    <article class="team" style="--kit:#d52b1e;--kit2:#b21b12;--tint:#ffffff">
+      <div class="kit-band"><span class="fl">🇨🇭</span><div><h3>Switzerland</h3><div class="grp">Group B · Winner · La Nati</div></div><span class="seed">M100</span></div>
+      <div class="team-body">
+        <div class="path">
+          <div class="leg"><span class="stage">R32</span><span class="opp">beat Algeria</span><span class="score">2–0</span><span class="badge w">✓ WIN</span></div>
+          <div class="leg"><span class="stage">R16</span><span class="opp">beat Colombia (pens)</span><span class="score">0–0 (4–3)</span><span class="badge w">✓ WIN</span></div>
+          <div class="leg"><span class="stage">QF</span><span class="opp">vs Argentina · Kansas City</span><span class="score">Jul 11</span><span class="badge u">NEXT</span></div>
+        </div>
+        <div class="stat-row">
+          <div class="stat"><span class="ico">⚽</span><b>Johan Manzambi</b><small>3 goals · team top scorer</small></div>
+          <div class="stat"><span class="ico">🛡️</span><b>0 conceded</b><small>2 clean sheets in KO</small></div>
+        </div>
+        <p class="note">🔑 Ruben Vargas's decisive penalty beat Colombia — Switzerland's first World Cup quarterfinal since 1954.</p>
+        <div class="watch"><span class="wl">📺 Watch / replay:</span><a class="mini fox" href="https://www.foxsports.com">FOX</a><a class="mini tel" href="https://www.telemundodeportes.com">Telemundo</a><span class="slot">＋ add match link</span></div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ================= STAT PANELS ================= -->
+<section id="stats">
+  <div class="sec-head">
+    <h2>📊 Infographic Stats</h2>
+    <p>Top scorers, defensive strength &amp; the knockout stage's biggest moments</p>
+  </div>
+  <div class="grid2">
+
+    <div class="panel">
+      <h3>🥇 Golden Boot race</h3>
+      <div class="ph">Goals through the Round of 16 · adidas Golden Boot standings (bars scaled to the leader's 8)</div>
+      <div class="bar"><span class="who">🇦🇷 Lionel Messi<small>Argentina</small></span><span class="track"><span class="fill" style="width:100%"></span></span><span class="val">8</span></div>
+      <div class="bar"><span class="who">🇫🇷 Kylian Mbappé<small>France</small></span><span class="track"><span class="fill" style="width:87.5%"></span></span><span class="val">7</span></div>
+      <div class="bar"><span class="who">🇳🇴 Erling Haaland<small>Norway</small></span><span class="track"><span class="fill" style="width:87.5%"></span></span><span class="val">7</span></div>
+      <div class="bar"><span class="who">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Harry Kane<small>England</small></span><span class="track"><span class="fill" style="width:75%"></span></span><span class="val">6</span></div>
+      <div class="bar"><span class="who">🇫🇷 O. Dembélé<small>France</small></span><span class="track"><span class="fill" style="width:50%"></span></span><span class="val">4</span></div>
+      <div class="bar"><span class="who">🇪🇸 M. Oyarzabal<small>Spain</small></span><span class="track"><span class="fill" style="width:50%"></span></span><span class="val">4</span></div>
+      <div class="bar"><span class="who">🏴󠁧󠁢󠁥󠁮󠁧󠁿 J. Bellingham<small>England</small></span><span class="track"><span class="fill" style="width:50%"></span></span><span class="val">4</span></div>
+    </div>
+
+    <div class="panel">
+      <h3>🛡️ Defensive wall — goals conceded</h3>
+      <div class="ph">Across the knockout rounds (R32 + R16) · shorter bar = stronger defense</div>
+      <div class="bar"><span class="who">🇪🇸 Spain<small>2 clean sheets</small></span><span class="track"><span class="fill def" style="width:6%"></span></span><span class="val">0</span></div>
+      <div class="bar"><span class="who">🇫🇷 France<small>2 clean sheets</small></span><span class="track"><span class="fill def" style="width:6%"></span></span><span class="val">0</span></div>
+      <div class="bar"><span class="who">🇨🇭 Switzerland<small>2 clean sheets</small></span><span class="track"><span class="fill def" style="width:6%"></span></span><span class="val">0</span></div>
+      <div class="bar"><span class="who">🇲🇦 Morocco<small>1 clean sheet</small></span><span class="track"><span class="fill def" style="width:25%"></span></span><span class="val">1</span></div>
+      <div class="bar"><span class="who">🇳🇴 Norway<small></small></span><span class="track"><span class="fill def" style="width:50%"></span></span><span class="val">2</span></div>
+      <div class="bar"><span class="who">🇧🇪 Belgium<small></small></span><span class="track"><span class="fill def" style="width:75%"></span></span><span class="val">3</span></div>
+      <div class="bar"><span class="who">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England<small></small></span><span class="track"><span class="fill def" style="width:75%"></span></span><span class="val">3</span></div>
+      <div class="bar"><span class="who">🇦🇷 Argentina<small></small></span><span class="track"><span class="fill def" style="width:100%"></span></span><span class="val">4</span></div>
+    </div>
+
+    <div class="panel" style="grid-column:1/-1">
+      <h3>⚡ Key match moments — Round of 16</h3>
+      <div class="ph">The defining results that set the last eight</div>
+      <div class="moments">
+        <div class="moment"><span class="m-ico">💥</span><div><b>Biggest upset — Norway 2–1 Brazil</b><small>Erling Haaland's brace knocked out the five-time champions; Neymar's late penalty wasn't enough.</small></div></div>
+        <div class="moment"><span class="m-ico">🔥</span><div><b>Biggest win — Belgium 4–1 USA</b><small>Charles De Ketelaere scored twice as Belgium ended co-host USA's run with the round's largest margin.</small></div></div>
+        <div class="moment"><span class="m-ico">🎯</span><div><b>Best comeback — Argentina 3–2 Egypt</b><small>The holders trailed 0–2 with 11 minutes left; Romero, Messi and Enzo Fernández's 90+2 winner rescued it.</small></div></div>
+        <div class="moment"><span class="m-ico">🥅</span><div><b>Penalty drama — Switzerland 4–3 Colombia</b><small>Goalless after 120 minutes, Ruben Vargas buried the decisive spot-kick to reach a first QF since 1954.</small></div></div>
+        <div class="moment"><span class="m-ico">🏟️</span><div><b>All three hosts out</b><small>USA, Mexico and Canada were all eliminated before the quarterfinals — the last eight is played entirely on US soil.</small></div></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= TIMELINE ================= -->
+<section id="timeline">
+  <div class="sec-head">
+    <h2>📈 Progression Timeline</h2>
+    <p>How each team's run has evolved, stage by stage</p>
+    <div class="legend">
+      <span><i class="chip win"></i> Won</span>
+      <span><i class="chip up"></i> Upcoming</span>
+      <span><i class="chip idle"></i> Not yet reached</span>
+    </div>
+  </div>
+  <div class="tl-scroll">
+    <div class="timeline">
+      <div class="tl-head">
+        <div>Team</div><div>Group</div><div>Round of 32</div><div>Round of 16</div><div>Quarterfinal</div><div>Semifinal</div><div>Final</div>
+      </div>
+
+      <div class="tl-row">
+        <div class="tl-team"><span class="fl">🇫🇷</span>France</div>
+        <div class="node q">Qualified<small>I · 1st</small></div>
+        <div class="node win">Won<small>3–0 Sweden</small></div>
+        <div class="node win">Won<small>1–0 Paraguay</small></div>
+        <div class="node up">Jul 9<small>v Morocco</small></div>
+        <div class="node idle">—</div>
+        <div class="node idle">—</div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-team"><span class="fl">🇲🇦</span>Morocco</div>
+        <div class="node q">Qualified<small>C · 2nd</small></div>
+        <div class="node win">Won<small>pens v NED</small></div>
+        <div class="node win">Won<small>3–0 Canada</small></div>
+        <div class="node up">Jul 9<small>v France</small></div>
+        <div class="node idle">—</div>
+        <div class="node idle">—</div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-team"><span class="fl">🇪🇸</span>Spain</div>
+        <div class="node q">Qualified<small>H · 1st</small></div>
+        <div class="node win">Won<small>3–0 Austria</small></div>
+        <div class="node win">Won<small>1–0 Portugal</small></div>
+        <div class="node up">Jul 10<small>v Belgium</small></div>
+        <div class="node idle">—</div>
+        <div class="node idle">—</div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-team"><span class="fl">🇧🇪</span>Belgium</div>
+        <div class="node q">Qualified<small>G · 1st</small></div>
+        <div class="node win">Won<small>3–2 Senegal</small></div>
+        <div class="node win">Won<small>4–1 USA</small></div>
+        <div class="node up">Jul 10<small>v Spain</small></div>
+        <div class="node idle">—</div>
+        <div class="node idle">—</div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-team"><span class="fl">🇳🇴</span>Norway</div>
+        <div class="node q">Qualified<small>I · 2nd</small></div>
+        <div class="node win">Won<small>2–1 Ivory C.</small></div>
+        <div class="node win">Won<small>2–1 Brazil</small></div>
+        <div class="node up">Jul 11<small>v England</small></div>
+        <div class="node idle">—</div>
+        <div class="node idle">—</div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-team"><span class="fl">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span>England</div>
+        <div class="node q">Qualified<small>L · 1st</small></div>
+        <div class="node win">Won<small>2–1 DR Congo</small></div>
+        <div class="node win">Won<small>3–2 Mexico</small></div>
+        <div class="node up">Jul 11<small>v Norway</small></div>
+        <div class="node idle">—</div>
+        <div class="node idle">—</div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-team"><span class="fl">🇦🇷</span>Argentina</div>
+        <div class="node q">Qualified<small>J · 1st</small></div>
+        <div class="node win">Won<small>3–2 C. Verde</small></div>
+        <div class="node win">Won<small>3–2 Egypt</small></div>
+        <div class="node up">Jul 11<small>v Switz.</small></div>
+        <div class="node idle">—</div>
+        <div class="node idle">—</div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-team"><span class="fl">🇨🇭</span>Switzerland</div>
+        <div class="node q">Qualified<small>B · 1st</small></div>
+        <div class="node win">Won<small>2–0 Algeria</small></div>
+        <div class="node win">Won<small>pens v COL</small></div>
+        <div class="node up">Jul 11<small>v Argentina</small></div>
+        <div class="node idle">—</div>
+        <div class="node idle">—</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= WHERE TO WATCH ================= -->
+<section id="watch">
+  <div class="sec-head">
+    <h2>📺 Where to Watch &amp; Replay</h2>
+    <p>Official broadcasters (United States) — live coverage &amp; on-demand replays</p>
+  </div>
+  <div class="watch-grid">
+    <div class="wcard">
+      <div class="wt">🦊 FOX Sports <small>English</small></div>
+      <p>All quarterfinals, semifinals &amp; final on FOX / FS1. Live &amp; replay on the FOX Sports app.</p>
+      <a class="btn primary" href="https://www.foxsports.com">Open FOX Sports</a>
+    </div>
+    <div class="wcard">
+      <div class="wt">🟢 Telemundo <small>Spanish</small></div>
+      <p>Every knockout match on Telemundo / Universo, with Spanish-language replays.</p>
+      <a class="btn green" href="https://www.telemundodeportes.com">Open Telemundo</a>
+    </div>
+    <div class="wcard">
+      <div class="wt">🦚 Peacock <small>streaming</small></div>
+      <p>Spanish-language streaming and on-demand match replays.</p>
+      <a class="btn dark" href="https://www.peacocktv.com">Open Peacock</a>
+    </div>
+    <div class="wcard">
+      <div class="wt">🌐 FIFA <small>official</small></div>
+      <p>Official tournament hub — fixtures, highlights and results.</p>
+      <a class="btn ghost" href="https://www.fifa.com">Open FIFA.com</a>
+    </div>
+  </div>
+  <div class="note-box">🔗 <b>Add your own match links:</b> each match card and bracket slot above has a <b>＋ link</b> placeholder — drop in the exact live or replay URL from your broadcaster (FOX Sports app, Telemundo, or Peacock) as each match airs. Regional broadcasters and blackout rules vary by country, so the buttons above open each broadcaster's World Cup hub rather than a fixed stream.</div>
+</section>
+
+<footer class="wrap">
+  <b>Data snapshot:</b> Wednesday, July 8, 2026, 10:44 AM PT. Group, Round of 32 and Round of 16 results are final; quarterfinal, semifinal and final rows show confirmed fixtures with outcomes still to be played (QF Jul 9–11 · SF Jul 14–15 · Final Jul 19). Knockout-round goal and clean-sheet figures cover the Round of 32 and Round of 16 only. Kit colours are stylised from each nation's traditional home strip.
+  <div class="src">
+    <span>CBS Sports</span><span>Sporting News</span><span>GMA News</span><span>adidas Golden Boot standings (FIFA)</span><span>Tempo</span><span>WorldCupWiki</span>
+  </div>
+</footer>
+
+</main>
+</body>
+</html>
