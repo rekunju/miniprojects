@@ -597,6 +597,240 @@ footer b{color:var(--ink)}
   </div>
 </section>
 
+<!-- ================= KNOCKOUT TRIVIA QUIZ ================= -->
+<section id="trivia">
+  <div class="sec-head">
+    <h2>🎯 Knockout Stage Trivia Quiz</h2>
+    <p>Test your knowledge of the quarterfinals and path to the final</p>
+  </div>
+  <div id="trivia-container" style="max-width:700px; margin:0 auto">
+    <div id="trivia-content"></div>
+  </div>
+</section>
+
+<style>
+/* ===== TRIVIA QUIZ STYLES ===== */
+.trivia-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+}
+
+.trivia-progress {
+  height: 6px;
+  background: var(--line);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.trivia-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #1f9d55, #0b9b3d);
+  transition: width 0.4s ease;
+  border-radius: 999px;
+}
+
+.trivia-question-num {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.trivia-question {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+.trivia-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.trivia-option {
+  padding: 14px 16px;
+  background: var(--page);
+  border: 2px solid transparent;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+  text-align: left;
+}
+
+.trivia-option:hover:not(.disabled) {
+  background: var(--panel);
+  border-color: #3a2a6d;
+}
+
+.trivia-option.selected {
+  border-color: #3a2a6d;
+  background: rgba(58, 42, 109, 0.08);
+}
+
+.trivia-option.correct {
+  border-color: #1f9d55;
+  background: rgba(31, 157, 85, 0.12);
+  animation: slideInCorrect 0.4s ease;
+}
+
+.trivia-option.incorrect {
+  border-color: #dc2626;
+  background: rgba(220, 38, 38, 0.12);
+  animation: shake 0.5s ease;
+}
+
+.trivia-option.disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+@keyframes slideInCorrect {
+  from {
+    transform: translateX(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.trivia-feedback {
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: slideInCorrect 0.5s ease;
+  font-size: 15px;
+}
+
+.trivia-feedback.correct {
+  background: rgba(31, 157, 85, 0.15);
+  color: #1f9d55;
+  border: 1px solid rgba(31, 157, 85, 0.3);
+}
+
+.trivia-feedback.incorrect {
+  background: rgba(220, 38, 38, 0.15);
+  color: #dc2626;
+  border: 1px solid rgba(220, 38, 38, 0.3);
+}
+
+.trivia-feedback-icon {
+  font-size: 18px;
+  animation: bounce 0.6s ease infinite;
+}
+
+.trivia-explanation {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: var(--page);
+  border-left: 3px solid #8e1c4a;
+  border-radius: 6px;
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.5;
+  animation: slideInCorrect 0.5s ease 0.2s both;
+}
+
+.trivia-button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.trivia-btn {
+  flex: 1;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  letter-spacing: 0.02em;
+}
+
+.trivia-btn.primary {
+  background: linear-gradient(135deg, #1f9d55, #0b9b3d);
+  color: white;
+}
+
+.trivia-btn.primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(31, 157, 85, 0.3);
+}
+
+.trivia-btn.secondary {
+  background: var(--page);
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+
+.trivia-btn.secondary:hover:not(:disabled) {
+  background: var(--panel);
+  border-color: #3a2a6d;
+}
+
+.trivia-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.trivia-results {
+  text-align: center;
+  animation: slideInCorrect 0.6s ease;
+}
+
+.trivia-score-display {
+  font-size: 48px;
+  font-weight: 800;
+  color: #1f9d55;
+  margin: 20px 0;
+}
+
+.trivia-result-message {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: var(--ink);
+}
+
+.trivia-result-description {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+</style>
+
 <!-- ================= WHERE TO WATCH ================= -->
 <section id="watch">
   <div class="sec-head">
@@ -634,6 +868,199 @@ footer b{color:var(--ink)}
     <span>CBS Sports</span><span>ESPN</span><span>NBC Sports</span><span>Sporting News</span><span>The Independent</span><span>FOX Sports</span><span>GMA News</span><span>adidas Golden Boot standings (FIFA)</span><span>Tempo</span><span>WorldCupWiki</span>
   </div>
 </footer>
+
+<script>
+// World Cup 2026 Knockout Stage Trivia - REAL FACTS (NO SCORES)
+const triviaQuestions = [
+  {
+    question: "Which player is jointly leading the Golden Boot race with 8 goals?",
+    options: ["Kylian Mbappé and Erling Haaland", "Lionel Messi and Harry Kane", "Lionel Messi and Kylian Mbappé", "Jude Bellingham and Erling Haaland"],
+    correct: 2,
+    explanation: "As of July 11, both Lionel Messi (Argentina) and Kylian Mbappé (France) are tied at the top with 8 goals each in the Golden Boot standings."
+  },
+  {
+    question: "How many career World Cup goals does Lionel Messi now have after the quarterfinals?",
+    options: ["14 goals", "15 goals", "16 goals", "17 goals"],
+    correct: 2,
+    explanation: "Messi has scored 16 career World Cup goals, which equals Miroslav Klose's all-time record for most World Cup goals."
+  },
+  {
+    question: "Which team has not conceded a single goal in the knockout rounds (R32 + R16)?",
+    options: ["Argentina", "France and Spain", "France, Spain, and Switzerland", "Only France"],
+    correct: 2,
+    explanation: "France, Spain, and Switzerland all maintained perfect defensive records through the first two knockout rounds with 0 goals conceded and 2 clean sheets each."
+  },
+  {
+    question: "Who scored the winning goal for England in the quarterfinal against Norway?",
+    options: ["Harry Kane", "Jude Bellingham (brace)", "Phil Foden", "Bukayo Saka"],
+    correct: 1,
+    explanation: "Jude Bellingham scored twice for England, including the winner three minutes into extra time against Norway."
+  },
+  {
+    question: "Which player came off the bench to score the decisive goal for Spain against Belgium in the 88th minute?",
+    options: ["Mikel Merino", "Ferran Torres", "Alejandro Balde", "Álvaro Morata"],
+    correct: 0,
+    explanation: "Mikel Merino struck in the 88th minute as a substitute to send Spain to their first World Cup semifinal since 2010."
+  },
+  {
+    question: "In which city did Argentina play their quarterfinal against Switzerland?",
+    options: ["Denver", "Phoenix", "Kansas City", "Houston"],
+    correct: 2,
+    explanation: "Argentina's quarterfinal against Switzerland took place in Kansas City, where the match went to extra time."
+  },
+  {
+    question: "What was notable about the quarterfinal between England and Norway?",
+    options: ["It went to penalties", "It went to extra time (AET)", "It was the highest-scoring quarterfinal", "It had a red card in the first half"],
+    correct: 1,
+    explanation: "England vs Norway went to extra time (AET), with Jude Bellingham's winner in the 93rd minute sending England to the Final Four."
+  },
+  {
+    question: "Which of these teams had the weakest defensive record in the first two knockout rounds?",
+    options: ["Spain", "Argentina (4 goals conceded)", "France", "England"],
+    correct: 1,
+    explanation: "Argentina conceded 4 goals in the knockout rounds (R32 + R16), more than any other team still in contention for the final."
+  }
+];
+
+let currentTriviaQuestion = 0;
+let triviaScore = 0;
+let triviaAnswered = false;
+
+function updateTriviaProgress() {
+  const progress = ((currentTriviaQuestion + 1) / triviaQuestions.length) * 100;
+  document.querySelector('.trivia-progress-bar').style.width = progress + '%';
+}
+
+function displayTriviaQuestion() {
+  const quiz = triviaQuestions[currentTriviaQuestion];
+  const progressText = `Question ${currentTriviaQuestion + 1} of ${triviaQuestions.length}`;
+  
+  let optionsHTML = quiz.options.map((option, index) => `
+    <div class="trivia-option" data-index="${index}" onclick="selectTriviaOption(${index})" ${triviaAnswered ? 'disabled' : ''}>
+      ${option}
+    </div>
+  `).join('');
+
+  const content = `
+    <div class="trivia-card">
+      <div class="trivia-progress">
+        <div class="trivia-progress-bar"></div>
+      </div>
+      <div class="trivia-question-num">${progressText}</div>
+      <div class="trivia-question">${quiz.question}</div>
+      <div class="trivia-options">${optionsHTML}</div>
+    </div>
+  `;
+
+  document.getElementById('trivia-content').innerHTML = content;
+  updateTriviaProgress();
+}
+
+function selectTriviaOption(index) {
+  if (triviaAnswered) return;
+  triviaAnswered = true;
+
+  const quiz = triviaQuestions[currentTriviaQuestion];
+  const options = document.querySelectorAll('.trivia-option');
+  const selectedOption = options[index];
+  const correctOption = options[quiz.correct];
+
+  selectedOption.classList.add(index === quiz.correct ? 'correct' : 'incorrect');
+  selectedOption.classList.add('disabled');
+
+  if (index !== quiz.correct) {
+    correctOption.classList.add('correct');
+    correctOption.classList.add('disabled');
+  }
+
+  if (index === quiz.correct) {
+    triviaScore++;
+  }
+
+  options.forEach(opt => opt.classList.add('disabled'));
+
+  setTimeout(() => {
+    const feedbackType = index === quiz.correct ? 'correct' : 'incorrect';
+    const feedbackIcon = index === quiz.correct ? '✓' : '✗';
+    const feedbackMessage = index === quiz.correct ? 'Correct!' : 'Incorrect!';
+
+    const feedbackHTML = `
+      <div class="trivia-feedback ${feedbackType}">
+        <span class="trivia-feedback-icon">${feedbackIcon}</span>
+        <span>${feedbackMessage}</span>
+      </div>
+      <div class="trivia-explanation">${quiz.explanation}</div>
+      <div class="trivia-button-group">
+        <button class="trivia-btn primary" onclick="nextTriviaQuestion()">
+          ${currentTriviaQuestion === triviaQuestions.length - 1 ? 'See Results' : 'Next Question'}
+        </button>
+      </div>
+    `;
+
+    document.querySelector('.trivia-card').innerHTML += feedbackHTML;
+  }, 600);
+}
+
+function nextTriviaQuestion() {
+  currentTriviaQuestion++;
+  triviaAnswered = false;
+
+  if (currentTriviaQuestion < triviaQuestions.length) {
+    displayTriviaQuestion();
+  } else {
+    showTriviaResults();
+  }
+}
+
+function showTriviaResults() {
+  const percentage = Math.round((triviaScore / triviaQuestions.length) * 100);
+  let message = '';
+  let description = '';
+
+  if (percentage === 100) {
+    message = '🏆 Perfect Score!';
+    description = 'You\'re a World Cup 2026 expert! You know every detail about the knockout stage.';
+  } else if (percentage >= 87) {
+    message = '⭐ Excellent!';
+    description = 'You have outstanding knowledge of the quarterfinals and final four matchups.';
+  } else if (percentage >= 75) {
+    message = '👍 Great Job!';
+    description = 'You have solid knowledge of the knockout stage. Keep watching the games!';
+  } else if (percentage >= 60) {
+    message = '📺 Good Try!';
+    description = 'You\'re getting there! Watch the semifinals to learn more details.';
+  } else {
+    message = '🎯 Keep Learning!';
+    description = 'Check out the bracket above and the broadcast schedule to catch up on the action.';
+  }
+
+  document.getElementById('trivia-content').innerHTML = `
+    <div class="trivia-card trivia-results">
+      <div class="trivia-result-message">${message}</div>
+      <div class="trivia-score-display">${triviaScore}/${triviaQuestions.length}</div>
+      <div style="font-size: 20px; color: #1f9d55; margin-bottom: 16px;">${percentage}%</div>
+      <div class="trivia-result-description">${description}</div>
+      <div class="trivia-button-group">
+        <button class="trivia-btn primary" onclick="restartTriviaQuiz()">Retake Quiz</button>
+      </div>
+    </div>
+  `;
+}
+
+function restartTriviaQuiz() {
+  currentTriviaQuestion = 0;
+  triviaScore = 0;
+  triviaAnswered = false;
+  displayTriviaQuestion();
+}
+
+// Initialize trivia when page loads
+document.addEventListener('DOMContentLoaded', function() {
+  if (document.getElementById('trivia-content')) {
+    displayTriviaQuestion();
+  }
+});
+</script>
 
 </main>
 </body>
